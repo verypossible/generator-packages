@@ -6,9 +6,13 @@
   "license": "MIT",
   "private": false,
   "files": [
-    "app"
+    "app",
+    "create"
   ],
   "dependencies": {
     "yeoman-generator": "^3.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^2.9.2"
   }
 }
