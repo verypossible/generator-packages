@@ -1,0 +1,28 @@
+{
+  "baseUrl": "types",
+  "typeRoots": ["types"],
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "target": "es5",
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "lib": ["es2015", "es2017", "dom"],
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "<%= namespace %>/*": ["packages/*"]
+    }
+  },
+  "include": [
+    "web/**/*",
+    "packages/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
+}

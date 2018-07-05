@@ -1,0 +1,14 @@
+{
+  "name": "generator-typescript-packages",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Eric Bower",
+  "license": "MIT",
+  "private": false,
+  "files": [
+    "app"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^3.0.0"
+  }
+}
