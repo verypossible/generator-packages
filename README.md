@@ -17,6 +17,23 @@ easier.
 Read the blog article on the underlying philosophy:
 https://github.com/neurosnap/blog/blob/master/scaling-js-codebase-multiple-platforms.md
 
+## Stack
+
+* Typescript
+* Webpack
+* React
+* Redux
+* Redux-Saga
+* TSLint
+* Prettier
+
+## Features
+
+* Sets up scaffolding for a web app without connecting all the pieces
+* Folder-based folder organization
+* Packages are referenced absolutely by the namespace defined when running the command, e.g. `import auth from '@myapp/auth';`
+* Built for scalability, composability, and reusability
+
 ## Getting started
 
 * Install [yeoman](http://yeoman.io/) `yarn global add yo`
