@@ -1,6 +1,6 @@
-# Typescript Packages
+# Packages
 
-Create a typescript app with one command.
+Get a webapp up and running with one command.
 
 This yeoman generator does two things:
 
