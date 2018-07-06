@@ -37,6 +37,7 @@ https://github.com/neurosnap/blog/blob/master/scaling-js-codebase-multiple-platf
 ## Getting started
 
 * Install [yeoman](http://yeoman.io/) `yarn global add yo`
+* Install generator-packages `yarn global add generator-packages`
 * Navigate to the project folder
 
 ```bash
