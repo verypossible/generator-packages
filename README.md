@@ -40,7 +40,7 @@ https://github.com/neurosnap/blog/blob/master/scaling-js-codebase-multiple-platf
 * Navigate to the project folder
 
 ```bash
-yo typescript-packages
+yo packages
 ```
 
 Follow the steps to complete it!
@@ -91,7 +91,7 @@ The primary command simply builds the scaffolding for the app, the next step
 is to add new features to the application.
 
 ```bash
-yo typescript-packages:create
+yo packages:create
 ```
 
 Follow the steps to complete it!
