@@ -150,7 +150,7 @@ import { State } from './types';
 
 const corePackages = [
   require('@myapp/auth'),
-+ require('@myapp/todo')
++ require('@myapp/todo'),
 ];
 
 // this will automatically grab all reducers and sagas for each package and load
