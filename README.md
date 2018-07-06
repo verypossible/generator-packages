@@ -59,30 +59,31 @@ Once the command finishes, it will copy files into project folder, install all n
 and allow the developer to start building quickly
 
 ```bash
-packages/          # all features are built as if they were npm packages here
-  web-app/         # this is the main web-app package that brings all other packages together
-    app.ts         # root react component that pulls everything together
-    index.ts       # init file that creates redux and renders `app`
-    packages.ts    # where all packages are registered and loaded into redux/redux-saga
-    store.ts       # redux store and middleware setup
-    types.ts       # redux State definition
-public/
-  index.html       # main html file
-  index.css        # a place to put global css
-webpack/           # webpack files for dev and prod
-  common.js    
-  dev.js
-  prod.js
-.gitignore
-index.ts           # this is what webpack uses as the entry point to the app
-jest.config.js     # jest configuration file for testing
-Makefile           # all task runner commands
-package.json    
-prettier.config.js # js auto formatter
-README.md
-tests.js           # file that jest uses before every test
-tsconfig.js        # typescript configuration file
-tslint.json        # lint configuration file
+<project-folder>/
+  packages/          # all features are built as if they were npm packages here
+    web-app/         # this is the main web-app package that brings all other packages together
+      app.ts         # root react component that pulls everything together
+      index.ts       # init file that creates redux and renders `app`
+      packages.ts    # where all packages are registered and loaded into redux/redux-saga
+      store.ts       # redux store and middleware setup
+      types.ts       # redux State definition
+  public/
+    index.html       # main html file
+    index.css        # a place to put global css
+  webpack/           # webpack files for dev and prod
+    common.js    
+    dev.js
+    prod.js
+  .gitignore
+  index.ts           # this is what webpack uses as the entry point to the app
+  jest.config.js     # jest configuration file for testing
+  Makefile           # all task runner commands
+  package.json    
+  prettier.config.js # js auto formatter
+  README.md
+  tests.js           # file that jest uses before every test
+  tsconfig.js        # typescript configuration file
+  tslint.json        # lint configuration file
 ```
 
 ## Creating new packages
@@ -125,15 +126,16 @@ every other layer in the package.
 Let's say the new feature is named `todo`
 
 ```bash
-packages/
-  todo/
-    action-creators.ts
-    action-types.ts
-    index.ts
-    reducers.ts
-    sagas.ts
-    selectors.ts
-    types.ts
+<project-folder>/
+  packages/
+    todo/
+      action-creators.ts
+      action-types.ts
+      index.ts
+      reducers.ts
+      sagas.ts
+      selectors.ts
+      types.ts
 ```
 
 This command will also add the package to the `packages.ts` file.
