@@ -19,13 +19,14 @@ https://github.com/neurosnap/blog/blob/master/scaling-js-codebase-multiple-platf
 
 ## Stack
 
-* Typescript
-* Webpack
-* React
-* Redux
-* Redux-Saga
+* typescript
+* webpack
+* react
+* redux
+* redux-saga
+* redux-cofx
 * TSLint
-* Prettier
+* prettier
 
 ## Features
 
@@ -72,14 +73,14 @@ and allow the developer to start building quickly
     index.html       # main html file
     index.css        # a place to put global css
   webpack/           # webpack files for dev and prod
-    common.js    
+    common.js
     dev.js
     prod.js
   .gitignore
   index.ts           # this is what webpack uses as the entry point to the app
   jest.config.js     # jest configuration file for testing
   Makefile           # all task runner commands
-  package.json    
+  package.json
   prettier.config.js # js auto formatter
   README.md
   tests.js           # file that jest uses before every test
