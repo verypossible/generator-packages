@@ -12,12 +12,8 @@ interface WindowInterface extends Window {
 
 export default () => {
   const store = createState({ rootReducer, rootSaga });
+  // in console access redux store by typeing reduxStore.getState()
   (window as WindowInterface).reduxStore = store;
 
-  render(
-    h(Provider, { store }, [
-      h(App),
-    ]),
-    document.querySelector('#app'),
-  );
+  render(h(Provider, { store }, [h(App)]), document.querySelector('#app'));
 };

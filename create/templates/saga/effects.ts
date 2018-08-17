@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects';
 import { FetchExampleAction } from './types';
-import { setExample } from './action-creators';
+import { setExample } from './actions';
 
 export function* onFetchExample(action: FetchExampleAction) {
   const { name } = action.payload;
