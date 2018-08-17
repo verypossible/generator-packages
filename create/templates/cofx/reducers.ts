@@ -1,4 +1,4 @@
-import createReducer from 'create-reducer';
+import createReducer from '<%= namespace %>/create-reducer';
 
 import * as selectors from './selectors';
 import { setExample } from './actions';
