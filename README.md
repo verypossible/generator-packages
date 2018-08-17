@@ -108,7 +108,7 @@ for any reducers or sagas that were built in the new package.
 
 The `:create` command will build a new feature and create some example files
 of how to setup a new package.  A package can technically have any interface,
-but for the main layers of the application, the index.ts file `must` export the following:
+but for the main layers of the application, the index.ts file `should` export the following:
 
 ```js
 interface Module {
@@ -116,8 +116,7 @@ interface Module {
   sagas?: { [key: string]: () => void };
   effects?: { [key: string]: (action: any) => any };
   selectors?: { [key: string]: (state: any) => any };
-  actionTypes?: { [key: string]: string };
-  actionCreators?: { [key: string]: (payload: any) => { type: string; payload: any } };
+  actions?: { [key: string]: (payload: any) => { type: string; payload: any } };
 }
 ```
 
@@ -131,8 +130,7 @@ Let's say the new feature is named `todo`
 <project-folder>/
   packages/
     todo/
-      action-creators.ts
-      action-types.ts
+      actions.ts
       index.ts
       reducers.ts
       sagas.ts

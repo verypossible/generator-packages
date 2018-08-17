@@ -7,7 +7,7 @@ import { Example, SetExampleAction } from './types';
 const setExampleFn = (state: Example, action: SetExampleAction) =>
   action.payload;
 
-const example = createReducer<Example>([], {
+const example = createReducer<Example>('', {
   [`${setExample}`]: setExampleFn,
 });
 

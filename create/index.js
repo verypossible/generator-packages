@@ -68,7 +68,7 @@ class Create extends Generator {
         default: false,
       },
       {
-        when: (response) => !response.cofxExample,
+        when: (response) => !response.sagaExample && !response.cofxExample,
         type: 'boolean',
         name: 'simple',
         message: 'Do you want a simple version of a package? (index file only)',
@@ -76,7 +76,7 @@ class Create extends Generator {
       },
       {
         when: (response) =>
-          !response.fullExample && !response.simple && !response.cofxExample,
+          !response.sagaExample && !response.simple && !response.cofxExample,
         type: 'checkbox',
         name: 'submodules',
         message: 'What submodules do you want included in this package?',
@@ -149,7 +149,8 @@ class Create extends Generator {
   }
 
   _write_saga() {
-    const { packageName } = this.options;
+    const { packageName, namespace } = this.options;
+    const vars = { namespace };
     const files = [
       'actions.ts',
       'reducers.ts',
@@ -180,12 +181,14 @@ class Create extends Generator {
       this.fs.copyTpl(
         this.templatePath(`saga/${file}`),
         this.destinationPath(`packages/${packageName}/${file}`),
+        vars,
       );
     });
   }
 
   _write_cofx() {
-    const { packageName } = this.options;
+    const { packageName, namespace } = this.options;
+    const vars = { namespace };
     const files = [
       'actions.ts',
       'reducers.ts',
@@ -208,6 +211,7 @@ class Create extends Generator {
       this.fs.copyTpl(
         this.templatePath(`cofx/${file}`),
         this.destinationPath(`packages/${packageName}/${file}`),
+        vars,
       );
     });
   }

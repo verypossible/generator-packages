@@ -75,6 +75,8 @@ class App extends Generator {
       'packages/web-app/packages.ts',
       'packages/web-app/store.ts',
       'packages/web-app/types.ts',
+      'packages/create-action/index.ts',
+      'packages/create-reducer/index.ts',
     ];
 
     if (this.options.markup === 'JSX') {
