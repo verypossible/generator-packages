@@ -1,8 +1,7 @@
-const actionTypes = {};
-const actionCreators = {};
+const actions = {};
 const selectors = {};
 const reducers = {};
 const effects = {};
 const sagas = {};
 
-export { actionTypes, actionCreators, selectors, reducers, effects, sagas };
+export { actions, selectors, reducers, effects, sagas };

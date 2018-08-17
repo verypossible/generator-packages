@@ -17,13 +17,17 @@ const createTransformer = (pkg) => (context) => (rootNode) => {
     }
 
     const arr = node.initializer.expression;
-    const exprType = ts.SyntaxKind[arr.kind]
+    const exprType = ts.SyntaxKind[arr.kind];
 
     if (exprType !== 'ArrayLiteralExpression') {
       return node;
     }
 
-    const n = ts.createCall(ts.createIdentifier('require'), [], [ts.createLiteral(pkg)]);
+    const n = ts.createCall(
+      ts.createIdentifier('require'),
+      [],
+      [ts.createLiteral(pkg)],
+    );
     node.initializer.expression.elements.push(n);
     return node;
   }
@@ -39,45 +43,66 @@ class Create extends Generator {
   prompting() {
     const author = this.user.git.name();
 
-    return this.prompt([{
-      type: 'input',
-      name: 'namespace',
-      message: 'Your project namespace',
-    }, {
-      type: 'input',
-      name: 'packageName',
-      message: 'Your package name',
-    }, {
-      type: 'boolean',
-      name: 'fullExample',
-      message: 'Do you want a full example of a package?',
-      default: false,
-    }, {
-      when: (response) => !response.fullExample,
-      type: 'boolean',
-      name: 'simple',
-      message: 'Do you want a simple version of a package? (index file only)',
-      default: false,
-    }, {
-      when: (response) => !response.fullExample && !response.simple,
-      type: 'checkbox',
-      name: 'submodules',
-      message: 'What submodules do you want included in this package?',
-      choices: ['actions', 'reducers', 'sagas'],
-      store: true,
-    }]).then((answers) => {
+    return this.prompt([
+      {
+        type: 'input',
+        name: 'namespace',
+        message: 'Your project namespace',
+      },
+      {
+        type: 'input',
+        name: 'packageName',
+        message: 'Your package name',
+      },
+      {
+        type: 'boolean',
+        name: 'sagaExample',
+        message: 'Do you want an example with sagas of a package?',
+        default: false,
+      },
+      {
+        when: (response) => !response.sagaExample,
+        type: 'boolean',
+        name: 'cofxExample',
+        message: 'Do you want an example with cofx of a package?',
+        default: false,
+      },
+      {
+        when: (response) => !response.cofxExample,
+        type: 'boolean',
+        name: 'simple',
+        message: 'Do you want a simple version of a package? (index file only)',
+        default: false,
+      },
+      {
+        when: (response) =>
+          !response.fullExample && !response.simple && !response.cofxExample,
+        type: 'checkbox',
+        name: 'submodules',
+        message: 'What submodules do you want included in this package?',
+        choices: ['actions', 'reducers', 'sagas'],
+        store: true,
+      },
+    ]).then((answers) => {
       this.options.namespace = answers.namespace;
       this.options.packageName = answers.packageName;
       this.options.submodules = answers.submodules;
       this.options.simple = answers.simple;
-      this.options.fullExample = answers.fullExample;
+      this.options.sagaExample = answers.sagaExample;
+      this.options.cofxExample = answers.cofxExample;
     });
   }
 
   writing() {
-    const { packageName, submodules, simple, fullExample } = this.options;
-    if (fullExample) {
-      this._write_full();
+    const { simple, cofxExample, sagaExample } = this.options;
+    if (sagaExample) {
+      this._write_saga();
+      this._update_packages();
+      return;
+    }
+
+    if (cofxExample) {
+      this._write_cofx();
       this._update_packages();
       return;
     }
@@ -99,13 +124,20 @@ class Create extends Generator {
       this.destinationPath(`packages/web-app/packages.ts`),
       {
         process: (content) => {
-          const sourceFile =
-            ts.createSourceFile('tmp.ts', content.toString(), ts.ScriptTarget.ES2015, true, ts.ScriptKind.TS);
-          const results = ts.transform(sourceFile, [createTransformer(`${namespace}/${packageName}`)]);
+          const sourceFile = ts.createSourceFile(
+            'tmp.ts',
+            content.toString(),
+            ts.ScriptTarget.ES2015,
+            true,
+            ts.ScriptKind.TS,
+          );
+          const results = ts.transform(sourceFile, [
+            createTransformer(`${namespace}/${packageName}`),
+          ]);
           return ts.createPrinter().printFile(results.transformed[0]);
         },
-      }
-    )
+      },
+    );
   }
 
   _write_simple() {
@@ -116,11 +148,10 @@ class Create extends Generator {
     );
   }
 
-  _write_full() {
+  _write_saga() {
     const { packageName } = this.options;
     const files = [
-      'action-types.ts',
-      'action-creators.ts',
+      'actions.ts',
       'reducers.ts',
       'selectors.ts',
       'sagas.ts',
@@ -128,28 +159,54 @@ class Create extends Generator {
       'types.ts',
     ];
     const indexExport = [
-      'actionTypes',
-      'actionCreators',
+      'actions',
       'reducers',
       'selectors',
       'sagas',
       'effects',
     ];
     const indexFile = [
-      "import * as actionTypes from './action-types';",
-      "import * as actionCreators from './action-creators';",
+      "import * as actions from './actions';",
       "import reducers from './reducers';",
       "import * as selectors from './selectors';",
       "import * as sagas from './sagas';",
       "import * as effects from './effects';",
-      `export { ${indexExport.join(', ')} };`
+      `export { ${indexExport.join(', ')} };`,
     ];
 
     this.fs.write(`packages/${packageName}/index.ts`, indexFile.join('\n'));
 
     files.forEach((file) => {
       this.fs.copyTpl(
-        this.templatePath(`full/${file}`),
+        this.templatePath(`saga/${file}`),
+        this.destinationPath(`packages/${packageName}/${file}`),
+      );
+    });
+  }
+
+  _write_cofx() {
+    const { packageName } = this.options;
+    const files = [
+      'actions.ts',
+      'reducers.ts',
+      'selectors.ts',
+      'effects.ts',
+      'types.ts',
+    ];
+    const indexExport = ['actions', 'reducers', 'selectors', 'effects'];
+    const indexFile = [
+      "import * as actions from './actions';",
+      "import reducers from './reducers';",
+      "import * as selectors from './selectors';",
+      "import * as effects from './effects';",
+      `export { ${indexExport.join(', ')} };`,
+    ];
+
+    this.fs.write(`packages/${packageName}/index.ts`, indexFile.join('\n'));
+
+    files.forEach((file) => {
+      this.fs.copyTpl(
+        this.templatePath(`cofx/${file}`),
         this.destinationPath(`packages/${packageName}/${file}`),
       );
     });
@@ -167,15 +224,9 @@ class Create extends Generator {
         "import * as actionCreators from './action-creators';",
       );
 
-      indexExport.push(
-        'actionTypes',
-        'actionCreators',
-      );
+      indexExport.push('actionTypes', 'actionCreators');
 
-      files.push(
-        'action-types.ts',
-        'action-creators.ts',
-      );
+      files.push('action-types.ts', 'action-creators.ts');
     }
 
     if (submodules.indexOf('reducers') >= 0) {
@@ -184,15 +235,9 @@ class Create extends Generator {
         "import * as selectors from './selectors';",
       );
 
-      indexExport.push(
-        'reducers',
-        'selectors',
-      );
+      indexExport.push('reducers', 'selectors');
 
-      files.push(
-        'reducers.ts',
-        'selectors.ts',
-      );
+      files.push('reducers.ts', 'selectors.ts');
     }
 
     if (submodules.indexOf('sagas') >= 0) {
@@ -201,15 +246,9 @@ class Create extends Generator {
         "import * as effects from './effects';",
       );
 
-      indexExport.push(
-        'sagas',
-        'effects',
-      );
+      indexExport.push('sagas', 'effects');
 
-      files.push(
-        'sagas.ts',
-        'effects.ts',
-      );
+      files.push('sagas.ts', 'effects.ts');
     }
 
     indexFile.push(`export { ${indexExport.join(', ')} };`);
@@ -219,6 +258,6 @@ class Create extends Generator {
       this.fs.write(`packages/${packageName}/${file}`, '// export here\n');
     });
   }
-};
+}
 
 module.exports = Create;
