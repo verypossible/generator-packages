@@ -1,6 +1,12 @@
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
-import { createStore, applyMiddleware, Middleware, Store, Reducer } from 'redux';
+import {
+  createStore,
+  applyMiddleware,
+  Middleware,
+  Store,
+  Reducer,
+} from 'redux';
 
 import { State } from './types';
 
@@ -10,7 +16,11 @@ interface Props {
   rootSaga: any;
 }
 
-export default function createState({ initState, rootReducer, rootSaga }: Props): Store<State> {
+export default function createState({
+  initState,
+  rootReducer,
+  rootSaga,
+}: Props): Store<State> {
   const sagaMiddleware = createSagaMiddleware();
   const middleware: Middleware[] = [sagaMiddleware];
 

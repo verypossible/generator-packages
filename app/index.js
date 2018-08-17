@@ -8,30 +8,35 @@ class App extends Generator {
   prompting() {
     const author = this.user.git.name();
 
-    return this.prompt([{
-      type: 'input',
-      name: 'projectName',
-      message: 'Your project name',
-      default: this.appname,
-    }, {
-      type: 'input',
-      name: 'namespace',
-      message: 'Your namespace for using packages',
-      default: (answers) => `@${answers.projectName}`,
-    }, {
-      type: 'input',
-      name: 'author',
-      message: 'Author to be listed in package.json',
-      default: author,
-      store: true,
-    }, {
-      type: 'list',
-      name: 'markup',
-      message: 'What React markup do you want to use?',
-      default: 'JSX',
-      choices: ['JSX', 'hyperscript'],
-      store: true,
-    }]).then((answers) => {
+    return this.prompt([
+      {
+        type: 'input',
+        name: 'projectName',
+        message: 'Your project name',
+        default: this.appname,
+      },
+      {
+        type: 'input',
+        name: 'namespace',
+        message: 'Your namespace for using packages',
+        default: (answers) => `@${answers.projectName}`,
+      },
+      {
+        type: 'input',
+        name: 'author',
+        message: 'Author to be listed in package.json',
+        default: author,
+        store: true,
+      },
+      {
+        type: 'list',
+        name: 'markup',
+        message: 'What React markup do you want to use?',
+        default: 'JSX',
+        choices: ['JSX', 'hyperscript'],
+        store: true,
+      },
+    ]).then((answers) => {
       this.log('project name', answers.projectName);
       this.options.projectName = answers.projectName;
       this.log('namespace', answers.namespace);
@@ -96,7 +101,7 @@ class App extends Generator {
     });
 
     const pkgJson = {
-      dependencies: {}
+      dependencies: {},
     };
 
     if (this.options.markup === 'hyperscript') {
@@ -109,6 +114,6 @@ class App extends Generator {
   install() {
     this.yarnInstall();
   }
-};
+}
 
 module.exports = App;
