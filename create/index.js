@@ -152,11 +152,10 @@ class Create extends Generator {
     const { packageName, namespace } = this.options;
     const vars = { namespace };
     const files = [
-      'actions.ts',
-      'reducers.ts',
-      'selectors.ts',
-      'sagas.ts',
       'effects.ts',
+      'sagas.ts',
+      'selectors.ts',
+      'slice.ts',
       'types.ts',
     ];
     const indexExport = [
@@ -167,8 +166,7 @@ class Create extends Generator {
       'effects',
     ];
     const indexFile = [
-      "import * as actions from './actions';",
-      "import reducers from './reducers';",
+      "import { actions, reducers } from './slice';",
       "import * as selectors from './selectors';",
       "import * as sagas from './sagas';",
       "import * as effects from './effects';",
@@ -189,17 +187,10 @@ class Create extends Generator {
   _write_cofx() {
     const { packageName, namespace } = this.options;
     const vars = { namespace };
-    const files = [
-      'actions.ts',
-      'reducers.ts',
-      'selectors.ts',
-      'effects.ts',
-      'types.ts',
-    ];
+    const files = ['slice.ts', 'selectors.ts', 'effects.ts', 'types.ts'];
     const indexExport = ['actions', 'reducers', 'selectors', 'effects'];
     const indexFile = [
-      "import * as actions from './actions';",
-      "import reducers from './reducers';",
+      "import { actions, reducers } from './slice';",
       "import * as selectors from './selectors';",
       "import * as effects from './effects';",
       `export { ${indexExport.join(', ')} };`,

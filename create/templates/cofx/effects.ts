@@ -1,5 +1,5 @@
 import { call, put, createEffect } from 'redux-cofx';
-import { setExample } from './actions';
+import { actions } from './slice';
 
 export function* onFetchExample(name: string) {
   const res = yield call(fetch, `http://httpbin.org/get?example=${name}`);
@@ -10,7 +10,7 @@ export function* onFetchExample(name: string) {
   }
 
   const data = yield call([res, 'json']);
-  yield put(setExample(data.args.example));
+  yield put(actions.set(data.args.example));
 }
 
 export const fetchExample = (name: string) =>

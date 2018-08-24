@@ -1,11 +1,7 @@
-export interface Action<T, P> {
-  readonly type: T;
-  readonly payload: P;
-}
-type ActionType = string;
+import { Action, ActionType } from './types';
 
 export default function creator<P>(type: ActionType) {
-  const action = (payload?: P): Action<ActionType, P> => ({
+  const action = (payload?: P): Action<P> => ({
     type,
     payload,
   });

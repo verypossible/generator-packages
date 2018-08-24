@@ -1,20 +1,21 @@
 import createNextState from 'immer';
-import { Action } from 'redux';
+
+import { Action } from './types';
 
 interface ActionsMap<S> {
-  [key: string]: (state: S, action: Action) => S | void;
+  [key: string]: (state: S, action: Action<any>) => S | void;
 }
 
 export default function createReducer<S>(
   initialState: S,
   actionsMap: ActionsMap<S>,
 ) {
-  return (state: S = initialState, action: Action) => {
+  return (state: S = initialState, action: Action<any>) => {
     return createNextState(<any>state, (draft: S) => {
       const caseReducer = actionsMap[action.type];
 
       if (caseReducer) {
-        return caseReducer(draft, action);
+        return caseReducer(draft, action.payload);
       }
 
       return draft;

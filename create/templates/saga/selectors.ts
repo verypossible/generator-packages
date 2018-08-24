@@ -1,6 +1,6 @@
 import { Example } from './types';
+import { slice } from './slice';
 
 type State = any;
 
-export const exampleKey = 'example';
-export const getExample = (state: State): Example => state[exampleKey] || '';
+export const getExample = (state: State): Example => state[slice] || '';

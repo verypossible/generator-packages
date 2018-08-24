@@ -1,9 +1,7 @@
 import { call, put } from 'redux-saga/effects';
-import { FetchExampleAction } from './types';
-import { setExample } from './actions';
+import { actions } from './slice';
 
-export function* onFetchExample(action: FetchExampleAction) {
-  const { name } = action.payload;
+export function* onFetchExample(name: string) {
   const res = yield call(fetch, `http://httpbin.org/get?example=${name}`);
 
   if (res.status < 200 || res.status >= 300) {
@@ -12,5 +10,5 @@ export function* onFetchExample(action: FetchExampleAction) {
   }
 
   const data = yield call([res, 'json']);
-  yield put(setExample(data.args.example));
+  yield put(actions.set(data.args.example));
 }
