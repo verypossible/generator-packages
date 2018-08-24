@@ -1,11 +1,7 @@
 import createAction from './action';
 import createReducer from './reducer';
-import { Action } from './types';
+import { ActionMap } from './types';
 
-type ActionCreator = (payload?: any) => Action<any>;
-interface ActionMap {
-  [key: string]: ActionCreator;
-}
 type Reduce<State> = (state: State, payload?: any) => State;
 interface ReduceMap<State> {
   [key: string]: Reduce<State>;

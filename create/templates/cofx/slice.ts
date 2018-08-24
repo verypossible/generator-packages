@@ -1,9 +1,10 @@
-import robodux from '<%= namespace %>/robodux';
+import robodux, { ActionMap } from '<%= namespace %>/robodux';
 import { Example } from './types';
+import { fetchExample } from './effects';
 
 const slice = 'example';
 
-const { actions, reducer } = robodux<Example>({
+const example = robodux<Example>({
   actions: {
     set: (state: Example, payload: string) => payload,
   },
@@ -12,7 +13,12 @@ const { actions, reducer } = robodux<Example>({
 });
 
 const reducers = {
-  [slice]: reducer,
+  [slice]: example.reducer,
+};
+
+const actions: ActionMap = {
+  ...example.actions,
+  fetchExample,
 };
 
 export { actions, reducers, slice };

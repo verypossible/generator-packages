@@ -1,4 +1,4 @@
-import robodux, { createAction } from '<%= namespace %>/robodux';
+import robodux, { createAction, ActionMap } from '<%= namespace %>/robodux';
 import { Example, FetchPayload } from './types';
 
 const slice = 'example';
@@ -15,7 +15,7 @@ const reducers = {
   [slice]: example.reducer,
 };
 
-const actions = {
+const actions: ActionMap = {
   ...example.actions,
   fetch: createAction<FetchPayload>(`${slice}/fetch`),
 };
