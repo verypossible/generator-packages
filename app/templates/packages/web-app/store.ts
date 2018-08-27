@@ -7,6 +7,7 @@ import {
   Store,
   Reducer,
 } from 'redux';
+import cofxMiddleware from 'redux-cofx';
 
 import { State } from './types';
 
@@ -22,7 +23,7 @@ export default function createState({
   rootSaga,
 }: Props): Store<State> {
   const sagaMiddleware = createSagaMiddleware();
-  const middleware: Middleware[] = [sagaMiddleware];
+  const middleware: Middleware[] = [cofxMiddleware, sagaMiddleware];
 
   if (process.env.NODE_ENV === 'development') {
     middleware.push(logger);
