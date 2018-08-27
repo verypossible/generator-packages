@@ -192,7 +192,7 @@ class Create extends Generator {
     const indexFile = [
       "import { actions, reducers } from './slice';",
       "import * as selectors from './selectors';",
-      "import * as effects from './effects';",
+      "import { effects } from './effects';",
       `export { ${indexExport.join(', ')} };`,
     ];
 

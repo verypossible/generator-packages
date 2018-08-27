@@ -10,8 +10,9 @@ export function* onFetchExample(name: string) {
   }
 
   const data = yield call([res, 'json']);
-  yield put(actions.set(data.args.example));
+  yield put(actions.setExample(data.args.example));
 }
 
-export const fetchExample = (name: string) =>
-  createEffect(onFetchExample, name);
+const fetchExample = (name: string) => createEffect(onFetchExample, name);
+
+export const effects = { fetchExample };

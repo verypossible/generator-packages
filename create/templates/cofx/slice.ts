@@ -1,24 +1,18 @@
-import robodux, { ActionMap } from '<%= namespace %>/robodux';
+import robodux from '<%= namespace %>/robodux';
 import { Example } from './types';
-import { fetchExample } from './effects';
 
 const slice = 'example';
 
-const example = robodux<Example>({
+const { actions, reducer } = robodux<Example>({
   actions: {
-    set: (state: Example, payload: string) => payload,
+    setExample: (state: Example, payload: string) => payload,
   },
   initialState: '',
   slice,
 });
 
 const reducers = {
-  [slice]: example.reducer,
-};
-
-const actions: ActionMap = {
-  ...example.actions,
-  fetchExample,
+  [slice]: reducer,
 };
 
 export { actions, reducers, slice };
