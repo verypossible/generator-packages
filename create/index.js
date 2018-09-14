@@ -67,7 +67,7 @@ class Create extends Generator {
         type: 'boolean',
         name: 'sagaExample',
         message: 'Do you want an example with sagas of a package?',
-        default: false,
+        default: true,
       },
       {
         when: (response) => !response.sagaExample && !response.cofxExample,
