@@ -41,13 +41,15 @@ class Create extends Generator {
   }
 
   prompting() {
-    const author = this.user.git.name();
+    const parentConfig = this.config.getAll();
+    const namespace = parentConfig.promptValues.namespace;
 
     return this.prompt([
       {
         type: 'input',
         name: 'namespace',
         message: 'Your project namespace',
+        default: namespace,
       },
       {
         type: 'input',
@@ -56,15 +58,15 @@ class Create extends Generator {
       },
       {
         type: 'boolean',
-        name: 'sagaExample',
-        message: 'Do you want an example with sagas of a package?',
+        name: 'cofxExample',
+        message: 'Do you want an example with cofx of a package?',
         default: false,
       },
       {
-        when: (response) => !response.sagaExample,
+        when: (response) => !response.cofxExample,
         type: 'boolean',
-        name: 'cofxExample',
-        message: 'Do you want an example with cofx of a package?',
+        name: 'sagaExample',
+        message: 'Do you want an example with sagas of a package?',
         default: false,
       },
       {
@@ -187,11 +189,10 @@ class Create extends Generator {
   _write_cofx() {
     const { packageName, namespace } = this.options;
     const vars = { namespace };
-    const files = ['slice.ts', 'selectors.ts', 'effects.ts', 'types.ts'];
+    const files = ['slice.ts', 'effects.ts'];
     const indexExport = ['actions', 'reducers', 'selectors', 'effects'];
     const indexFile = [
-      "import { actions, reducers } from './slice';",
-      "import * as selectors from './selectors';",
+      "import { actions, reducers, selectors } from './slice';",
       "import { effects } from './effects';",
       `export { ${indexExport.join(', ')} };`,
     ];

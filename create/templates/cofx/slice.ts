@@ -1,5 +1,6 @@
 import robodux from '<%= namespace %>/robodux';
-import { Example } from './types';
+
+type Example = string;
 
 const slice = 'example';
 
@@ -15,4 +16,8 @@ const reducers = {
   [slice]: reducer,
 };
 
-export { actions, reducers, slice };
+const selectors = {
+  getExample: (state: any) => state[slice],
+};
+
+export { actions, reducers, slice, selectors };

@@ -20,13 +20,13 @@ class App extends Generator {
         name: 'namespace',
         message: 'Your namespace for using packages',
         default: (answers) => `@${answers.projectName}`,
+        store: true,
       },
       {
         type: 'input',
         name: 'author',
         message: 'Author to be listed in package.json',
         default: author,
-        store: true,
       },
       {
         type: 'list',
@@ -34,7 +34,6 @@ class App extends Generator {
         message: 'What React markup do you want to use?',
         default: 'JSX',
         choices: ['JSX', 'hyperscript'],
-        store: true,
       },
     ]).then((answers) => {
       this.log('project name', answers.projectName);
