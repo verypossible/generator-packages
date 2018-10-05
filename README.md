@@ -23,7 +23,6 @@ https://github.com/neurosnap/blog/blob/master/scaling-js-codebase-multiple-platf
 * webpack
 * react
 * redux
-* redux-saga
 * redux-cofx
 * TSLint
 * prettier
@@ -66,7 +65,7 @@ and allow the developer to start building quickly
     web-app/         # this is the main web-app package that brings all other packages together
       app.ts         # root react component that pulls everything together
       index.ts       # init file that creates redux and renders `app`
-      packages.ts    # where all packages are registered and loaded into redux/redux-saga
+      packages.ts    # where all packages are registered and root reducer is created
       store.ts       # redux store and middleware setup
       types.ts       # redux State definition
   public/
@@ -102,7 +101,7 @@ Follow the steps to complete it!
 This will create a new package under `packages` where the developer can start
 building the feature.  It will also link the package up to the main `web-app`
 by adding the package to the `web-app/packages.ts` file.  This is necessary in order
-for any reducers or sagas that were built in the new package.
+for any reducers that were built in the new package.
 
 ### What does the command do?
 
@@ -113,7 +112,6 @@ but for the main layers of the application, the index.ts file `should` export th
 ```js
 interface Module {
   reducers?: { [key: string]: (state: any, action: any) => any };
-  sagas?: { [key: string]: () => void };
   effects?: { [key: string]: (action: any) => any };
   selectors?: { [key: string]: (state: any) => any };
   actions?: { [key: string]: (payload: any) => { type: string; payload: any } };
@@ -130,12 +128,9 @@ Let's say the new feature is named `todo`
 <project-folder>/
   packages/
     todo/
-      actions.ts
       index.ts
-      reducers.ts
-      sagas.ts
-      selectors.ts
-      types.ts
+      slice.ts
+      effects.ts
 ```
 
 This command will also add the package to the `packages.ts` file.
@@ -146,7 +141,6 @@ For example here is a diff of `packages.ts`:
 import { combineReducers, Reducer } from 'redux';
 
 import use from 'redux-package-loader';
-import sagaCreator from 'redux-saga-creator';
 
 import { State } from './types';
 
@@ -155,11 +149,10 @@ const corePackages = [
 + require('@myapp/todo'),
 ];
 
-// this will automatically grab all reducers and sagas for each package and load
+// this will automatically grab all reducers for each package and load
 // them into the rootReducer and rootSaga
 const packages = use(corePackages);
 const rootReducer: Reducer<State> = combineReducers(packages.reducers);
-const rootSaga = sagaCreator(packages.sagas);
 
-export { packages, rootReducer, rootSaga };
+export { packages, rootReducer };
 ```
