@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { render } from 'react-dom';
 
 import createState from './store';
-import { rootReducer, rootSaga } from './packages';
+import { rootReducer } from './packages';
 import App from './app';
 
 interface WindowInterface extends Window {
@@ -11,7 +11,7 @@ interface WindowInterface extends Window {
 }
 
 export default () => {
-  const store = createState({ rootReducer, rootSaga });
+  const store = createState({ rootReducer });
   (window as WindowInterface).reduxStore = store;
 
   render(

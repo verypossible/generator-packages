@@ -1,10 +1,10 @@
-import robodux from '<%= namespace %>/robodux';
+import robodux from 'robodux';
 
 type Example = string;
 
 const slice = 'example';
 
-const { actions, reducer } = robodux<Example>({
+const { actions, reducer, selectors } = robodux<Example>({
   actions: {
     setExample: (state: Example, payload: string) => payload,
   },
@@ -14,10 +14,6 @@ const { actions, reducer } = robodux<Example>({
 
 const reducers = {
   [slice]: reducer,
-};
-
-const selectors = {
-  getExample: (state: any) => state[slice],
 };
 
 export { actions, reducers, slice, selectors };

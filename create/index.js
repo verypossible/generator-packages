@@ -65,24 +65,16 @@ class Create extends Generator {
       {
         when: (response) => !response.cofxExample,
         type: 'boolean',
-        name: 'sagaExample',
-        message: 'Do you want an example with sagas of a package?',
-        default: true,
-      },
-      {
-        when: (response) => !response.sagaExample && !response.cofxExample,
-        type: 'boolean',
         name: 'simple',
         message: 'Do you want a simple version of a package? (index file only)',
         default: false,
       },
       {
-        when: (response) =>
-          !response.sagaExample && !response.simple && !response.cofxExample,
+        when: (response) => !response.simple && !response.cofxExample,
         type: 'checkbox',
         name: 'submodules',
         message: 'What submodules do you want included in this package?',
-        choices: ['actions', 'reducers', 'sagas'],
+        choices: ['actions', 'reducers'],
         store: true,
       },
     ]).then((answers) => {
@@ -90,19 +82,12 @@ class Create extends Generator {
       this.options.packageName = answers.packageName;
       this.options.submodules = answers.submodules;
       this.options.simple = answers.simple;
-      this.options.sagaExample = answers.sagaExample;
       this.options.cofxExample = answers.cofxExample;
     });
   }
 
   writing() {
-    const { simple, cofxExample, sagaExample } = this.options;
-    if (sagaExample) {
-      this._write_saga();
-      this._update_packages();
-      return;
-    }
-
+    const { simple, cofxExample } = this.options;
     if (cofxExample) {
       this._write_cofx();
       this._update_packages();
@@ -148,42 +133,6 @@ class Create extends Generator {
       this.templatePath('simple.ts'),
       this.destinationPath(`packages/${packageName}/index.ts`),
     );
-  }
-
-  _write_saga() {
-    const { packageName, namespace } = this.options;
-    const vars = { namespace };
-    const files = [
-      'effects.ts',
-      'sagas.ts',
-      'selectors.ts',
-      'slice.ts',
-      'types.ts',
-    ];
-    const indexExport = [
-      'actions',
-      'reducers',
-      'selectors',
-      'sagas',
-      'effects',
-    ];
-    const indexFile = [
-      "import { actions, reducers } from './slice';",
-      "import * as selectors from './selectors';",
-      "import * as sagas from './sagas';",
-      "import * as effects from './effects';",
-      `export { ${indexExport.join(', ')} };`,
-    ];
-
-    this.fs.write(`packages/${packageName}/index.ts`, indexFile.join('\n'));
-
-    files.forEach((file) => {
-      this.fs.copyTpl(
-        this.templatePath(`saga/${file}`),
-        this.destinationPath(`packages/${packageName}/${file}`),
-        vars,
-      );
-    });
   }
 
   _write_cofx() {
@@ -234,17 +183,6 @@ class Create extends Generator {
       indexExport.push('reducers', 'selectors');
 
       files.push('reducers.ts', 'selectors.ts');
-    }
-
-    if (submodules.indexOf('sagas') >= 0) {
-      indexFile.push(
-        "import * as sagas from './sagas';",
-        "import * as effects from './effects';",
-      );
-
-      indexExport.push('sagas', 'effects');
-
-      files.push('sagas.ts', 'effects.ts');
     }
 
     indexFile.push(`export { ${indexExport.join(', ')} };`);

@@ -73,12 +73,7 @@ class App extends Generator {
       'webpack/prod.js',
       'packages/web-app/packages.ts',
       'packages/web-app/store.ts',
-      'packages/web-app/types.ts',
-      'packages/robodux/index.ts',
-      'packages/robodux/action.ts',
-      'packages/robodux/reducer.ts',
-      'packages/robodux/slice.ts',
-      'packages/robodux/types.ts',
+      'packages/types/index.ts',
     ];
 
     if (this.options.markup === 'JSX') {
