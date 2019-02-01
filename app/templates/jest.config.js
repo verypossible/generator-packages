@@ -1,6 +1,6 @@
 module.exports = {
   testEnvironment: 'enzyme',
-  setupTestFrameworkScriptFile: './tests.js',
+  setupFilesAfterEnv: ['./tests.js'],
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
@@ -11,7 +11,7 @@ module.exports = {
   },
   globals: {
     'ts-jest': {
-      skipBabel: true,
+      babelConfig: false,
     },
   },
 };

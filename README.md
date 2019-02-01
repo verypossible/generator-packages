@@ -2,6 +2,8 @@
 
 Get a webapp up and running with one command.
 
+![](init.gif)
+
 This yeoman generator does two things:
 
 * It creates the scaffolding for a typescript/react/redux/packages app.
@@ -91,6 +93,8 @@ and allow the developer to start building quickly
 
 The primary command simply builds the scaffolding for the app, the next step
 is to add new features to the application.
+
+![](create.gif)
 
 ```bash
 yo packages:create

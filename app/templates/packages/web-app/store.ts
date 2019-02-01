@@ -6,7 +6,7 @@ import {
   Store,
   Reducer,
 } from 'redux';
-import cofxMiddleware from 'redux-cofx';
+import cofxMiddleware, { enableBatching } from 'redux-cofx';
 
 import { State } from '<%= namespace %>/types';
 
@@ -19,14 +19,16 @@ export default function createState({
   initState,
   rootReducer,
 }: Props): Store<State> {
-  const middleware: Middleware[] = [cofxMiddleware];
+  const middleware: Middleware[] = [];
 
   if (process.env.NODE_ENV === 'development') {
     middleware.push(logger);
   }
 
+  middleware.push(cofxMiddleware);
+
   const store = createStore(
-    rootReducer,
+    enableBatching(rootReducer),
     initState,
     applyMiddleware(...middleware),
   );

@@ -29,21 +29,20 @@ class App extends Generator {
         default: author,
       },
       {
-        type: 'list',
-        name: 'markup',
-        message: 'What React markup do you want to use?',
-        default: 'JSX',
-        choices: ['JSX', 'hyperscript'],
+        type: 'boolean',
+        name: 'circleci',
+        message: 'Do you want circleci integration for unit tests?',
+        default: true,
       },
     ]).then((answers) => {
       this.log('project name', answers.projectName);
       this.options.projectName = answers.projectName;
       this.log('namespace', answers.namespace);
       this.options.namespace = answers.namespace;
-      this.log('markup', answers.markup);
-      this.options.markup = answers.markup;
       this.log('author', answers.author);
       this.options.author = answers.author;
+      this.log('circleci', answers.circleci);
+      this.options.circleci = answers.circleci;
     });
   }
 
@@ -51,8 +50,8 @@ class App extends Generator {
     const vars = {
       projectName: this.options.projectName,
       namespace: this.options.namespace,
-      markup: this.options.markup,
       author: this.options.author,
+      circleci: this.options.circleci,
     };
 
     const files = [
@@ -74,21 +73,14 @@ class App extends Generator {
       'packages/web-app/packages.ts',
       'packages/web-app/store.ts',
       'packages/types/index.ts',
+      'packages/web-app/app.tsx',
+      'packages/web-app/app.test.tsx',
+      'packages/web-app/index.tsx',
+      'packages/bootup/index.ts',
     ];
 
-    if (this.options.markup === 'JSX') {
-      files.push(
-        'packages/web-app/app.tsx',
-        'packages/web-app/app.test.tsx',
-        'packages/web-app/index.tsx',
-      );
-    } else if (this.options.markup === 'hyperscript') {
-      files.push(
-        'packages/web-app/app.ts',
-        'packages/web-app/app.test.ts',
-        'packages/web-app/index.ts',
-        'packages/react-hyperscript.d.ts',
-      );
+    if (this.options.circleci) {
+      files.push('.circleci/config.yml');
     }
 
     files.forEach((file) => {
@@ -102,10 +94,6 @@ class App extends Generator {
     const pkgJson = {
       dependencies: {},
     };
-
-    if (this.options.markup === 'hyperscript') {
-      pkgJson.dependencies['react-hyperscript'] = '3.2.0';
-    }
 
     this.fs.extendJSON(this.destinationPath('package.json'), pkgJson);
   }

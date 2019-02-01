@@ -8,7 +8,6 @@
     ],
     "jsRules": {},
     "rules": {
-      "max-line-length": [100, true],
       "object-shorthand-properties-first": false,
       "function-name": false,
       "import-name": false,

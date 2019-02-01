@@ -4,7 +4,7 @@ type Example = string;
 
 const slice = 'example';
 
-const { actions, reducer, selectors } = robodux<Example>({
+const { actions, reducer, selectors } = robodux({
   actions: {
     setExample: (state: Example, payload: string) => payload,
   },

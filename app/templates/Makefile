@@ -13,7 +13,7 @@ prod:
 .PHONY: prod
 
 lint:
-	$(BIN)/tslint './packages/**/*.ts' './web/**/*.ts'
+	$(BIN)/tslint -p './tsconfig.json' './packages/**/*.ts' './index.ts'
 .PHONY: lint
 
 tsc:
@@ -21,8 +21,12 @@ tsc:
 .PHONY: tsc
 
 jest:
-	$(BIN)/jest $(JEST_FILES)
+	TZ=America/New_York $(BIN)/jest $(JEST_FILES)
 .PHONY: jest
+
+jest-ci:
+	TZ=America/New_York $(BIN/jest) -w 1
+.PHONY: jest-ci
 
 jest-watch:
 	$(BIN)/jest --watch $(JEST_FILES)
@@ -33,6 +37,9 @@ jest-update:
 .PHONY: jest-update
 
 test: tsc lint jest
+.PHONY: test
+
+test-ci: tsc lint jest-ci
 .PHONY: test
 
 open:
