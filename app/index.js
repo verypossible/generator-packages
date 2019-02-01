@@ -28,20 +28,11 @@ class App extends Generator {
         message: 'Author to be listed in package.json',
         default: author,
       },
-      {
-        type: 'list',
-        name: 'markup',
-        message: 'What React markup do you want to use?',
-        default: 'JSX',
-        choices: ['JSX', 'hyperscript'],
-      },
     ]).then((answers) => {
       this.log('project name', answers.projectName);
       this.options.projectName = answers.projectName;
       this.log('namespace', answers.namespace);
       this.options.namespace = answers.namespace;
-      this.log('markup', answers.markup);
-      this.options.markup = answers.markup;
       this.log('author', answers.author);
       this.options.author = answers.author;
     });
@@ -51,7 +42,6 @@ class App extends Generator {
     const vars = {
       projectName: this.options.projectName,
       namespace: this.options.namespace,
-      markup: this.options.markup,
       author: this.options.author,
     };
 
@@ -74,22 +64,10 @@ class App extends Generator {
       'packages/web-app/packages.ts',
       'packages/web-app/store.ts',
       'packages/types/index.ts',
+      'packages/web-app/app.tsx',
+      'packages/web-app/app.test.tsx',
+      'packages/web-app/index.tsx',
     ];
-
-    if (this.options.markup === 'JSX') {
-      files.push(
-        'packages/web-app/app.tsx',
-        'packages/web-app/app.test.tsx',
-        'packages/web-app/index.tsx',
-      );
-    } else if (this.options.markup === 'hyperscript') {
-      files.push(
-        'packages/web-app/app.ts',
-        'packages/web-app/app.test.ts',
-        'packages/web-app/index.ts',
-        'packages/react-hyperscript.d.ts',
-      );
-    }
 
     files.forEach((file) => {
       this.fs.copyTpl(
@@ -102,10 +80,6 @@ class App extends Generator {
     const pkgJson = {
       dependencies: {},
     };
-
-    if (this.options.markup === 'hyperscript') {
-      pkgJson.dependencies['react-hyperscript'] = '3.2.0';
-    }
 
     this.fs.extendJSON(this.destinationPath('package.json'), pkgJson);
   }

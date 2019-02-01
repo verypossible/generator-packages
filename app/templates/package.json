@@ -5,7 +5,7 @@
   "private": true,
   "npmClient": "yarn",
   "scripts": {
-    "test": "make test",
+    "test": "make test-ci",
     "precommit": "lint-staged"
   },
   "author": "<%= author %>",
