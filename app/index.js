@@ -28,6 +28,12 @@ class App extends Generator {
         message: 'Author to be listed in package.json',
         default: author,
       },
+      {
+        type: 'boolean',
+        name: 'circleci',
+        message: 'Do you want circleci integration for unit tests?',
+        default: true,
+      },
     ]).then((answers) => {
       this.log('project name', answers.projectName);
       this.options.projectName = answers.projectName;
@@ -35,6 +41,8 @@ class App extends Generator {
       this.options.namespace = answers.namespace;
       this.log('author', answers.author);
       this.options.author = answers.author;
+      this.log('circleci', answers.circleci);
+      this.options.circleci = answers.circleci;
     });
   }
 
@@ -43,6 +51,7 @@ class App extends Generator {
       projectName: this.options.projectName,
       namespace: this.options.namespace,
       author: this.options.author,
+      circleci: this.options.circleci,
     };
 
     const files = [
@@ -67,7 +76,12 @@ class App extends Generator {
       'packages/web-app/app.tsx',
       'packages/web-app/app.test.tsx',
       'packages/web-app/index.tsx',
+      'packages/bootup/index.ts',
     ];
+
+    if (this.options.circleci) {
+      files.push('.circleci/config.yml');
+    }
 
     files.forEach((file) => {
       this.fs.copyTpl(

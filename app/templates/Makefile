@@ -13,7 +13,7 @@ prod:
 .PHONY: prod
 
 lint:
-	$(BIN)/tslint './packages/**/*.ts' './index.ts'
+	$(BIN)/tslint -p './tsconfig.json' './packages/**/*.ts' './index.ts'
 .PHONY: lint
 
 tsc:

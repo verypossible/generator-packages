@@ -19,11 +19,13 @@ export default function createState({
   initState,
   rootReducer,
 }: Props): Store<State> {
-  const middleware: Middleware[] = [cofxMiddleware];
+  const middleware: Middleware[] = [];
 
   if (process.env.NODE_ENV === 'development') {
     middleware.push(logger);
   }
+
+  middleware.push(cofxMiddleware);
 
   const store = createStore(
     enableBatching(rootReducer),
