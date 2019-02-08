@@ -4,10 +4,15 @@
 
 * node
 
-## Dev
+## Install
 
 ```bash
 yarn
+```
+
+## Dev
+
+```bash
 make dev
 ```
 
@@ -15,4 +20,10 @@ make dev
 
 ```bash
 make prod
+```
+
+## Test
+
+```bash
+make test
 ```
